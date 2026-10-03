@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Class Archive — Memories</title>
+  <meta name="description" content="Koleksi foto dan kenangan selama masa sekolah.">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap');
+
+    :root{
+      --bg:#f5f3ee;
+      --paper:#fffdf8;
+      --text:#171717;
+      --muted:#77736c;
+      --line:#ddd8cf;
+      --accent:#7b8f68;
+      --accent2:#d9b88f;
+      --dark:#1e211d;
+      --shadow:0 18px 45px rgba(31,31,26,.10);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      background:var(--bg);
+      color:var(--text);
+      font-family:'DM Sans',sans-serif;
+      overflow-x:hidden;
+    }
+    a{text-decoration:none;color:inherit}
+    button{font:inherit}
+
+    /* grain */
+    body:before{
+      content:"";
+      position:fixed;inset:0;pointer-events:none;z-index:100;
+      opacity:.035;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
+    }
+
+    nav{
+      position:fixed;top:18px;left:50%;transform:translateX(-50%);
+      width:min(1100px,calc(100% - 32px));z-index:50;
+      padding:12px 16px 12px 20px;border:1px solid rgba(255,255,255,.7);
+      background:rgba(255,253,248,.78);backdrop-filter:blur(18px);
+      border-radius:100px;display:flex;align-items:center;justify-content:space-between;
+      box-shadow:0 8px 30px rgba(0,0,0,.06);
+    }
+    .brand{font-weight:700;letter-spacing:-.03em;display:flex;align-items:center;gap:9px}
+    .brand-dot{width:10px;height:10px;background:var(--accent);border-radius:50%;display:inline-block}
+    .navlinks{display:flex;gap:24px;font-size:13px;color:#5e5a53}
+    .navlinks a:hover{color:var(--text)}
+    .nav-btn{
+      border:0;background:var(--dark);color:white;padding:10px 16px;border-radius:50px;
+      cursor:pointer;font-size:12px;
+    }
+
+    .hero{
+      min-height:92vh;display:flex;align-items:center;justify-content:center;
+      padding:140px 22px 80px;position:relative;
+    }
+    .hero-inner{width:min(1100px,100%);display:grid;grid-template-columns:1.15fr .85fr;gap:55px;align-items:center}
+    .eyebrow{text-transform:uppercase;letter-spacing:.18em;font-size:11px;color:var(--muted);margin-bottom:20px}
+    h1{
+      font-size:clamp(54px,8vw,105px);line-height:.88;letter-spacing:-.065em;
+      max-width:780px;font-weight:600;
+    }
+    h1 em{font-family:'Playfair Display',serif;font-weight:500}
+    .hero-copy{max-width:540px;color:var(--muted);line-height:1.75;margin-top:26px;font-size:15px}
+    .hero-meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+    .pill{border:1px solid var(--line);border-radius:100px;padding:9px 14px;font-size:12px;background:rgba(255,255,255,.45)}
+    .hero-photo{
+      position:relative;height:510px;transform:rotate(3deg);
+      background:#e7e0d4;padding:14px;box-shadow:var(--shadow);
+    }
+    .hero-photo img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.85)}
+    .tape{position:absolute;width:105px;height:27px;background:rgba(219,190,148,.62);top:-13px;left:50%;transform:translateX(-50%) rotate(-4deg);z-index:2}
+    .hero-label{
+      position:absolute;bottom:25px;left:-30px;background:var(--paper);padding:16px 20px;
+      box-shadow:0 10px 30px rgba(0,0,0,.12);transform:rotate(-5deg);font-family:'Playfair Display',serif;font-size:18px;
+    }
+    .scroll-note{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--muted)}
+
+    section{width:min(1100px,calc(100% - 36px));margin:0 auto;padding:95px 0}
+    .section-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:35px}
+    .section-kicker{font-size:11px;text-transform:uppercase;letter-spacing:.17em;color:var(--muted);margin-bottom:10px}
+    h2{font-size:clamp(34px,5vw,58px);letter-spacing:-.055em;line-height:.95}
+    .section-desc{max-width:370px;color:var(--muted);font-size:13px;line-height:1.7}
+
+    .timeline{display:flex;gap:10px;margin-bottom:34px;overflow:auto;padding-bottom:5px}
+    .filter{
+      border:1px solid var(--line);background:transparent;border-radius:100px;
+      padding:10px 17px;cursor:pointer;color:var(--muted);white-space:nowrap;font-size:12px;
+    }
+    .filter.active,.filter:hover{background:var(--dark);color:white;border-color:var(--dark)}
+
+    .gallery{
+      columns:3 250px;column-gap:18px;
+    }
+    .card{
+      break-inside:avoid;margin-bottom:18px;position:relative;cursor:pointer;
+      background:var(--paper);padding:10px;box-shadow:0 8px 25px rgba(0,0,0,.06);
+      transition:.35s ease;display:inline-block;width:100%;
+    }
+    .card:hover{transform:translateY(-6px) rotate(-.5deg);box-shadow:var(--shadow)}
+    .card img{width:100%;display:block;object-fit:cover;max-height:530px}
+    .card-info{padding:13px 5px 4px;display:flex;justify-content:space-between;gap:10px;align-items:start}
+    .card-title{font-weight:600;font-size:13px}
+    .card-date{font-size:10px;color:var(--muted);white-space:nowrap}
+    .card-caption{font-size:11px;color:var(--muted);line-height:1.5;margin-top:5px}
+
+    .memory-note{
+      margin-top:70px;background:var(--dark);color:white;padding:55px 50px;
+      border-radius:4px;position:relative;overflow:hidden;
+    }
+    .memory-note:after{
+      content:"✦";position:absolute;right:35px;top:10px;font-size:130px;opacity:.08;
+    }
+    .memory-note p{font-family:'Playfair Display',serif;font-size:clamp(25px,4vw,46px);line-height:1.15;max-width:850px}
+    .memory-note small{display:block;margin-top:22px;color:#aaa;font-size:11px;text-transform:uppercase;letter-spacing:.15em}
+
+    .year-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+    .year{
+      min-height:210px;padding:25px;background:var(--paper);border:1px solid var(--line);
+      position:relative;overflow:hidden;transition:.3s;
+    }
+    .year:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+    .year-number{font-size:70px;letter-spacing:-.08em;font-weight:700;line-height:.9}
+    .year-name{position:absolute;bottom:24px;left:25px;font-family:'Playfair Display',serif;font-size:23px}
+    .year-count{position:absolute;right:24px;bottom:26px;color:var(--muted);font-size:11px}
+
+    footer{padding:50px 20px 80px;text-align:center;color:var(--muted);font-size:11px}
+    footer strong{color:var(--text)}
+
+    /* modal */
+    .modal{
+      position:fixed;inset:0;background:rgba(20,20,18,.82);z-index:200;
+      display:none;align-items:center;justify-content:center;padding:25px;
+      backdrop-filter:blur(8px);
+    }
+    .modal.show{display:flex}
+    .modal-box{max-width:900px;width:100%;position:relative}
+    .modal img{width:100%;max-height:78vh;object-fit:contain;display:block}
+    .modal-caption{color:white;margin-top:12px;font-size:12px}
+    .close{
+      position:absolute;right:0;top:-45px;background:white;border:0;width:34px;height:34px;
+      border-radius:50%;cursor:pointer;font-size:18px;
+    }
+
+    @media(max-width:760px){
+      nav{top:10px}
+      .navlinks{display:none}
+      .hero{padding-top:115px;min-height:auto}
+      .hero-inner{grid-template-columns:1fr;gap:40px}
+      .hero-photo{height:420px;width:88%;margin:auto}
+      .hero-label{left:-15px}
+      .section-head{display:block}
+      .section-desc{margin-top:15px}
+      section{padding:65px 0}
+      .year-grid{grid-template-columns:1fr}
+      .memory-note{padding:35px 25px}
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="brand" href="#"><span class="brand-dot"></span> English Education Archive</a>
+    <div class="navlinks">
+      <a href="#gallery">Gallery</a>
+      <a href="#timeline">Timeline</a>
+      <a href="#about">About</a>
+    </div>
+    <button class="nav-btn" onclick="document.getElementById('gallery').scrollIntoView()">View memories ↗</button>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <div class="hero-inner">
+        <div>
+          <div class="eyebrow">Class archive</div>
+          <h1>Little moments,<br><em>big memories.</em></h1>
+          <p class="hero-copy">
+            Sebuah ruang kecil untuk menyimpan foto, cerita, dan tawa yang kita lewati 
+            selama tahun-tahun kuliah. Karena ada kenangan yang terlalu berharga jika hanya
+            berakhir di galeri HP.
+          </p>
+          <div class="hero-meta">
+            <span class="pill">📷 120+ memories</span>
+            <span class="pill">♡ made with nostalgia</span>
+            <span class="pill">EDU 1 A · Class Archive</span>
+          </div>
+        </div>
+
+        <div class="hero-photo">
+          <div class="tape"></div>
+          <!-- GANTI FOTO UTAMA DI BAWAH -->
+          <img src="GAMBAR/514485.jpg" alt="School memory">
+          <div class="hero-label">one chapter,<br>many stories.</div>
+        </div>
+      </div>
+      <div class="scroll-note">scroll to remember ↓</div>
+    </header>
+
+    <section id="gallery">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">01 / the collection</div>
+          <h2>Photo dump,<br><em>but make it meaningful.</em></h2>
+        </div>
+        <p class="section-desc">Pilih tahun untuk melihat potongan-potongan kecil dari perjalanan kelas kita.</p>
+      </div>
+
+      <div class="timeline">
+        <button class="filter active" data-year="all">All memories</button>
+        <button class="filter" data-year="X">Chapter 1</button>
+        <button class="filter" data-year="XI">Chapter 2</button>
+        <button class="filter" data-year="XII">Chapter 3</button>
+        <button class="filter" data-year="event">Etc.</button>
+      </div>
+
+      <div class="gallery" id="galleryGrid">
+        <!--
+          CARA MENAMBAH FOTO:
+          1. Simpan foto di folder "images"
+          2. Ubah src menjadi "images/nama-foto.jpg"
+          3. Ubah data-year sesuai kategori: X, XI, XII, atau event
+        -->
+        <article class="card" data-year="XII" data-title="Hari terakhir sekolah" data-caption="Akhir dari satu rutinitas, awal dari banyak cerita.">
+          <img src="GAMBAR/A4.jpg" alt="Hari terakhir sekolah">
+          <div class="card-info"><div><div class="card-title">Hari terakhir sekolah</div><div class="card-caption">Akhir dari satu rutinitas, awal dari banyak cerita.</div></div><span class="card-date">XII</span></div>
+        </article>
+
+        <article class="card" data-year="X" data-title="First day" data-caption="Masih malu-malu, belum tahu bakal sejauh apa.">
+          <img src="GAMBAR/A3.jpg" alt="First day">
+          <div class="card-info"><div><div class="card-title">First day</div><div class="card-caption">Masih malu-malu, belum tahu bakal sejauh apa.</div></div><span class="card-date">X</span></div>
+        </article>
+
+        <article class="card" data-year="event" data-title="Class trip" data-caption="Satu perjalanan yang akhirnya jadi bahan cerita bertahun-tahun.">
+          <img src="GAMBAR/A6.jpg" alt="Class trip">
+          <div class="card-info"><div><div class="card-title">Class trip</div><div class="card-caption">Satu perjalanan yang akhirnya jadi bahan cerita bertahun-tahun.</div></div><span class="card-date">EVENT</span></div>
+        </article>
+
+        <article class="card" data-year="XI" data-title="Random Tuesday" data-caption="Nggak ada acara spesial. Justru itu yang bikin kangen.">
+          <img src="GAMBAR/A5.jpg" alt="Friends">
+          <div class="card-info"><div><div class="card-title">Random Tuesday</div><div class="card-caption">Nggak ada acara spesial. Justru itu yang bikin kangen.</div></div><span class="card-date">XI</span></div>
+        </article>
+
+        <article class="card" data-year="event" data-title="School event" data-caption="Ramai, capek, chaotic — tapi seru.">
+          <img src="GAMBAR/A7.jpg" alt="School event">
+          <div class="card-info"><div><div class="card-title">School event</div><div class="card-caption">Ramai, capek, chaotic — tapi seru.</div></div><span class="card-date">EVENT</span></div>
+        </article>
+
+        <article class="card" data-year="XII" data-title="The squad" data-caption="Orang-orang yang membuat sekolah terasa seperti rumah kedua.">
+          <img src="GAMBAR/A3.jpg" alt="The squad">
+          <div class="card-info"><div><div class="card-title">The squad</div><div class="card-caption">Orang-orang yang membuat sekolah terasa seperti rumah kedua.</div></div><span class="card-date">XII</span></div>
+        </article>
+
+        <article class="card" data-year="XI" data-title="After class" data-caption="Bel pulang bukan berarti obrolan selesai.">
+          <img src="GAMBAR/A4.jpg" alt="After class">
+          <div class="card-info"><div><div class="card-title">After class</div><div class="card-caption">Bel pulang bukan berarti obrolan selesai.</div></div><span class="card-date">XI</span></div>
+        </article>
+
+        <article class="card" data-year="X" data-title="New friends" data-caption="Beberapa orang datang sebagai teman sekelas, lalu menjadi bagian cerita.">
+          <img src="GAMBAR/A 11.jpg" alt="New friends">
+          <div class="card-info"><div><div class="card-title">New friends</div><div class="card-caption">Beberapa orang datang sebagai teman sekelas, lalu menjadi bagian cerita.</div></div><span class="card-date">X</span></div>
+        </article>
+
+        <article class="card" data-year="XI" data-title="Random Tuesday" data-caption="Nggak ada acara spesial. Justru itu yang bikin kangen.">
+          <img src="GAMBAR/A5.jpg" alt="Friends">
+          <div class="card-info"><div><div class="card-title">Random Tuesday</div><div class="card-caption">Nggak ada acara spesial. Justru itu yang bikin kangen.</div></div><span class="card-date">XI</span></div>
+        </article>
+      </div>
+
+      <div class="memory-note">
+        <p>“Nanti kita akan lupa detailnya. Tapi semoga kita nggak pernah lupa bagaimana rasanya berada di sini.”</p>
+        <small>— a note to our future selves</small>
+      </div>
+    </section>
+
+    <section id="timeline">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">02 / chapters</div>
+          <h2>Three years.<br><em>One story.</em></h2>
+        </div>
+        <p class="section-desc">Setiap tahun punya suasana, orang, dan cerita yang berbeda.</p>
+      </div>
+
+      <div class="year-grid">
+        <div class="year"><div class="year-number">01</div><div class="year-name">Class X</div><div class="year-count">the beginning</div></div>
+        <div class="year"><div class="year-number">02</div><div class="year-name">Class XI</div><div class="year-count">the chaos</div></div>
+        <div class="year"><div class="year-number">03</div><div class="year-name">Class XII</div><div class="year-count">the ending</div></div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">03 / archive note</div>
+          <h2>Not just<br><em>photos.</em></h2> <br
+        </div>
+        <article class="card" data-year="XII" data-title="Hari terakhir sekolah" data-caption="Akhir dari satu rutinitas, awal dari banyak cerita.">
+          <img src="GAMBAR/A 11.jpg" alt="Hari terakhir sekolah">
+          <div class="card-info"><div><div class="card-title">Hari terakhir sekolah</div><div class="card-caption">Akhir dari satu rutinitas, awal dari banyak cerita.</div></div><span class="card-date">XII</span></div>
+        </article>
+        <p class="section-desc">
+          Website ini dibuat sebagai kapsul waktu digital — tempat untuk kembali
+          kapan pun kita ingin mengingat versi diri kita yang pernah ada di sekolah.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Made for the memories · <strong>English Education · archive</strong> · 2026-2030</p>
+  </footer>
+
+  <div class="modal" id="modal">
+    <div class="modal-box">
+      <button class="close" id="close">×</button>
+      <img id="modalImg" src="" alt="">
+      <div class="modal-caption" id="modalCaption"></div>
+    </div>
+  </div>
+
+  <script>
+    // Filter gallery
+    const filters = document.querySelectorAll('.filter');
+    const cards = document.querySelectorAll('.card');
+
+    filters.forEach(filter => {
+      filter.addEventListener('click', () => {
+        filters.forEach(f => f.classList.remove('active'));
+        filter.classList.add('active');
+
+        const year = filter.dataset.year;
+        cards.forEach(card => {
+          card.style.display = (year === 'all' || card.dataset.year === year) ? 'inline-block' : 'none';
+        });
+      });
+    });
+
+    // Image modal
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modalImg');
+    const modalCaption = document.getElementById('modalCaption');
+    const close = document.getElementById('close');
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const img = card.querySelector('img');
+        modalImg.src = img.src;
+        modalImg.alt = img.alt;
+        modalCaption.textContent = card.dataset.title + ' — ' + card.dataset.caption;
+        modal.classList.add('show');
+      });
+    });
+
+    function closeModal(){ modal.classList.remove('show'); }
+    close.addEventListener('click', closeModal);
+    modal.addEventListener('click', e => { if(e.target === modal) closeModal(); });
+    document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+  </script>
+</body>
+</html>
